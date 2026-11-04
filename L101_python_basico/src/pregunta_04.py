@@ -1,3 +1,5 @@
+import gzip
+
 def pregunta_04():
     """
     Cuente cuántos registros hay en cada mes, usando la fecha de la tercera
@@ -8,5 +10,20 @@ def pregunta_04():
 
         [("01", 3), ("02", 4), ("03", 2), ...]
     """
+    meses = {}
+    with gzip.open("data/data.csv.gz", "rt") as f:
+        for line in f:
+            registro = line.strip().split("\t")
+            fecha = registro[2]
+            mes = fecha.split("-")[1]
+            if mes not in meses:
+                meses[mes] = 1
+            else:
+                meses[mes] +=1
 
-    raise NotImplementedError
+    meses_ordenados = sorted(meses.items())
+
+
+
+    return meses_ordenados
+

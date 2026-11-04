@@ -1,3 +1,5 @@
+import gzip
+
 def pregunta_06():
     """
     La quinta columna (`metrics`) contiene pares `clave:valor` separados por
@@ -13,4 +15,24 @@ def pregunta_06():
         [("aaa", 1, 9), ("bbb", 1, 9), ...]
     """
 
-    raise NotImplementedError
+    with gzip.open("data/data.csv.gz", "rt") as f:
+        metrics_dict = {}
+        for line in f:
+            registro = line.strip().split("\t")
+            metrics = registro[4].split(",")
+            for metric in metrics:
+                clave, valor = metric.split(":")
+                valor = int(valor)
+                if clave not in metrics_dict:
+                    metrics_dict[clave] = [valor]
+                else:
+                    metrics_dict[clave].append(valor)
+
+    for item in metrics_dict.items():
+        metrics_dict[item[0]] = (min(item[1]), max(item[1]))
+
+    ordenadas = sorted(metrics_dict.items())
+    ordenadas = [(item[0], item[1][0], item[1][1]) for item in ordenadas]
+
+    return ordenadas
+

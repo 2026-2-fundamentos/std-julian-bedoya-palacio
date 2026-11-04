@@ -1,3 +1,5 @@
+import gzip
+
 def pregunta_07():
     """
     Para cada valor distinto de la segunda columna (`value`), construya la
@@ -10,5 +12,17 @@ def pregunta_07():
 
         [(0, ["C"]), (1, ["E", "B", "E"]), (2, ["A", "E"]), ...]
     """
+    dic = {}
+    with gzip.open("data/data.csv.gz", "rt") as f:
+        for line in f:
+            registro = line.strip().split("\t")
+            valor = int(registro[1])
+            if valor not in dic:
+                dic[valor] = [registro[0]]
+            else:
+                dic[valor].append(registro[0])
 
-    raise NotImplementedError
+    ordenado = sorted(dic.items())
+
+
+    return ordenado

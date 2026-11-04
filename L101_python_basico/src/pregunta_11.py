@@ -1,3 +1,5 @@
+import gzip
+
 def pregunta_11():
     """
     La cuarta columna (`codes`) contiene letras minúsculas separadas por
@@ -9,5 +11,20 @@ def pregunta_11():
 
         {"a": 122, "b": 49, "c": 91, ...}
     """
+    dic={}
+    with gzip.open("data/data.csv.gz", "rt") as f:
+        for line in f:
+            registro = line.strip().split("\t")
+            valor = int(registro[1])
+            letras = registro[3].split(",")
+            for letra in letras:
+                if letra in dic:
+                    dic[letra] += valor
+                else:
+                    dic[letra] = valor
 
-    raise NotImplementedError
+    ordenado = dict(sorted(dic.items()))
+
+
+    return ordenado
+

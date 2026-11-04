@@ -1,3 +1,5 @@
+import gzip
+
 def pregunta_09():
     """
     Cuente cuántas veces aparece cada clave en la quinta columna (`metrics`)
@@ -8,5 +10,19 @@ def pregunta_09():
 
         {"aaa": 13, "bbb": 16, "ccc": 23, ...}
     """
+    dic = {}
 
-    raise NotImplementedError
+    with gzip.open("data/data.csv.gz", "rt") as f:
+        for line in f:
+            registro = line.strip().split("\t")
+            metrics = registro[4].split(",")
+            for metric in metrics:
+                metric=metric[:3]
+                if metric not in dic:
+                    dic[metric] = 1
+                else:
+                    dic[metric] += 1
+
+    dic = dict(sorted(dic.items()))
+
+    return dic
