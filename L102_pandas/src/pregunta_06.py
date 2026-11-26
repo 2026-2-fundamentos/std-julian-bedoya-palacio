@@ -1,3 +1,5 @@
+import pandas as pd
+
 def pregunta_06():
     """
     Usando `data/tbl1.tsv`, obtenga los valores distintos de la columna `c4`,
@@ -8,5 +10,12 @@ def pregunta_06():
 
         ["A", "B", "C", "D", "E", "F", "G"]
     """
+    df = pd.read_csv("data/tbl1.tsv", sep="\t")
+    c4 = df['c4'].str.upper().unique()
+    c4_sorted = sorted(c4)
 
-    raise NotImplementedError
+    return c4_sorted
+
+
+if __name__ == "__main__":
+    print(pregunta_06())

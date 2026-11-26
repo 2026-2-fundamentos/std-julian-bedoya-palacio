@@ -1,3 +1,5 @@
+import pandas as pd
+
 def pregunta_05():
     """
     Usando `data/tbl0.tsv`, encuentre el valor máximo de la columna `c2` para
@@ -12,5 +14,10 @@ def pregunta_05():
         C    9
         ...
     """
+    df = pd.read_csv("data/tbl0.tsv", sep="\t")
+    c1 = df.groupby('c1')['c2'].max().sort_index()
 
-    raise NotImplementedError
+    return c1
+
+if __name__ == "__main__":
+    print(pregunta_05())

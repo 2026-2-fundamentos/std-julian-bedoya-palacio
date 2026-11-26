@@ -1,3 +1,10 @@
+import pandas as pd
+
+def format_c4_values(values):
+    sorted_values = sorted(values)
+
+    return ','.join(str(value) for value in sorted_values)
+
 def pregunta_11():
     """
     En `data/tbl1.tsv`, cada valor de la columna `c0` aparece en varias
@@ -14,5 +21,10 @@ def pregunta_11():
         2    2  a,c,e,f
         ...
     """
+    df=pd.read_csv("data/tbl1.tsv", sep="\t")
+    resultado=df.groupby('c0')['c4'].apply(format_c4_values)
 
-    raise NotImplementedError
+    return resultado.to_frame().reset_index()
+
+if __name__ == "__main__":
+    print(pregunta_11())

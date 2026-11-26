@@ -1,3 +1,5 @@
+import pandas as pd
+
 def pregunta_13():
     """
     Combine las tablas `data/tbl0.tsv` y `data/tbl2.tsv` usando la columna
@@ -14,5 +16,13 @@ def pregunta_13():
         C     81
         ...
     """
+    df0=pd.read_csv("data/tbl0.tsv", sep="\t")
+    df2=pd.read_csv("data/tbl2.tsv", sep="\t")
 
-    raise NotImplementedError
+    unido= pd.merge(df0, df2, on='c0')
+    resultado= unido.groupby('c1')['c5b'].sum()
+
+    return resultado
+
+if __name__ == "__main__":
+    print(pregunta_13())

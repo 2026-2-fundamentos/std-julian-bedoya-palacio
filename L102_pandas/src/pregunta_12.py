@@ -1,3 +1,12 @@
+import pandas as pd
+
+
+def format_c5_values(values):
+    sorted_values = sorted(values)
+
+    return ','.join(sorted_values)
+
+
 def pregunta_12():
     """
     En `data/tbl2.tsv`, cada valor de la columna `c0` aparece en varias
@@ -14,5 +23,12 @@ def pregunta_12():
         2    2        ccc:6,ddd:2,ggg:5,jjj:1
         ...
     """
+    df = pd.read_csv("data/tbl2.tsv", sep="\t")
+    df['c5'] = df['c5a'] + ':' + df['c5b'].astype(str)
+    resultado = df.groupby('c0')['c5'].apply(format_c5_values)
 
-    raise NotImplementedError
+    return resultado.reset_index()
+
+
+if __name__ == "__main__":
+    print(pregunta_12())
