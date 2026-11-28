@@ -1,3 +1,8 @@
+import os
+
+import pandas as pd
+
+
 def pregunta_01():
     """
     Las frases de este laboratorio no están en una tabla, sino en miles de
@@ -25,5 +30,24 @@ def pregunta_01():
         "Cardona slowed her vehicle , turned around ...",neutral
         ...
     """
+    os.makedirs("submission", exist_ok=True)
 
-    raise NotImplementedError
+    for split in ["train", "test"]:
+        filas = []
+        split_dir = os.path.join("data", split)
+
+        for target in sorted(os.listdir(split_dir)):
+            target_dir = os.path.join(split_dir, target)
+
+            for archivo in sorted(os.listdir(target_dir)):
+                ruta = os.path.join(target_dir, archivo)
+                with open(ruta, encoding="utf-8") as f:
+                    phrase = f.read().strip()
+                filas.append({"phrase": phrase, "target": target})
+
+        df = pd.DataFrame(filas, columns=["phrase", "target"])
+        df.to_csv(os.path.join("submission", f"{split}_dataset.csv"), index=False)
+
+
+if __name__ == "__main__":
+    pregunta_01()
